@@ -10,6 +10,7 @@ library(tidyverse)
 library(patchwork)
 library(readxl)
 library(readr)
+library(rvest)
 
 knitr::opts_chunk$set(
   fig.width = 6,
@@ -44,6 +45,10 @@ weight_data =
     names_to = "name",
     values_to = "weight"
   ) %>%
+  mutate(
+    weight = str_replace(weight, "1810", "18 10"),
+    weight = str_replace(weight, "1803", "18 03")
+  ) %>%
   separate(weight, into = c("pound", "ounce"), sep = " ") %>%
   separate(std, into = c("std_pound", "std_ounce"), sep = " ") %>%
   mutate(
@@ -64,6 +69,7 @@ Then, I unify the expressions of the names of columns and drop rows that has no 
 I separate the date into year, month, and day for a better view. Noticing that the raw data is in a wide format where all three pets' names are the column names which is not tidy, I make it into a long format. I also convert the weight unit into solely "pounds", replacing the confusing format of two numbers(pounds and ounces) in the raw data. Finally, I rearrange the columns to present information for a more understanding view.
 
 Now, create a second data frame containing notes in the raw data and save the two data frames into csv files.
+
 ```{r}
 note_data = 
   read_excel("./data/dogweights_07sept2020 (1).xlsx", range = "B2:G207",
@@ -76,5 +82,17 @@ note_data =
 
 write_csv(weight_data, "./data/tidy_weights.csv")
 write_csv(note_data, "./data/tidy_notes.csv")
+```
+
+In the tidy dataset containing weights, there are totally `r nrow(weight_data)` rows and each row is a weight information for a single dog in a single day. Columns include variables of the date, name, weight(pounds), and the weight of a standard object. There are `r nrow(count(weight_data, year, month, day))` unique dates included. Following is a table showing the number of observations for each dog, along with their average weight and standard deviation.
+
+```{r}
+weight_data %>%
+  group_by(name) %>% 
+  summarise(
+    num = sum(!is.na(weight)),
+    avg_weight = mean(weight, na.rm = T),
+    sd_weight = sd(weight, na.rm = T)
+  )
 ```
 

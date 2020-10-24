@@ -107,7 +107,7 @@ year,month,day,name,weight,std
 2018,10,18,raisin,18.875,20.975
 2018,10,18,simone,10.75,20.975
 2018,10,18,gagne,10.8125,20.975
-2018,10,22,raisin,NA,NA
+2018,10,22,raisin,18.625,NA
 2018,10,22,simone,10.25,NA
 2018,10,22,gagne,10.3125,NA
 2018,10,23,raisin,18.5,20.975
@@ -335,7 +335,7 @@ year,month,day,name,weight,std
 2019,07,19,raisin,18.125,NA
 2019,07,19,simone,10.375,NA
 2019,07,19,gagne,9,NA
-2019,07,23,raisin,NA,NA
+2019,07,23,raisin,18.1875,NA
 2019,07,23,simone,10.25,NA
 2019,07,23,gagne,8.75,NA
 2019,07,26,raisin,18.1875,NA
