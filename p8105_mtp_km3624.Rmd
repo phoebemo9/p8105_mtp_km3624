@@ -58,7 +58,8 @@ weight_data =
     std_ounce = as.numeric(std_ounce),
     std = std_pound + std_ounce / 16
   ) %>%
-  select(date, name, weight, std)
+  select(date, name, weight, std) %>%
+  drop_na(weight)
 ```
 
 The raw data is in excel format and the "Date" variable has multiple forms of expressions, so when importing it, I unify them in a single form of expression.
@@ -66,6 +67,8 @@ The raw data is in excel format and the "Date" variable has multiple forms of ex
 Then, I unify the expressions of the names of columns and drop rows that has no date information as well as rows that has NA in all three dogs' weight. Since there is only one row that has no date entry, and rows that has no weight record for all three dogs are useless, this removal has trivial impact on our later analysis. I also make the weight data keeps the same format by adding whitespace for later convenience of manipulating the unit of weight.
 
 Noticing that the raw data is in a wide format where all three pets' names are the column names which is not tidy, I make it into a long format. I also convert the weight unit into solely "pounds", replacing the confusing format of two numbers(pounds and ounces) in the raw data. Finally, I rearrange the column sequence to present information for a better understanding view.
+
+For the missing values, I deleted all rows whose weight is NA for the dog on that single day. Since these rows are redundant and useless in our later analysis, this deletion is trivial.
 
 Now, I'm going to create a second data frame containing notes in the raw data and save the two data frames I made into csv files.
 
